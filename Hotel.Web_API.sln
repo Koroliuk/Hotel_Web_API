@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1738
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.Web_API", "Hotel.Web_API\Hotel.Web_API.csproj", "{572D6721-5BEF-4FEF-925B-3447B9D8C64A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.DAL", "Hotel.DAL\Hotel.DAL.csproj", "{9D015B1F-2AD8-41D9-B75E-6D7990EACA64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hotel.BLL", "Hotel.BLL\Hotel.BLL.csproj", "{61D5DC64-8C97-4D35-9C1D-43B6DFADA473}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{572D6721-5BEF-4FEF-925B-3447B9D8C64A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{572D6721-5BEF-4FEF-925B-3447B9D8C64A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{572D6721-5BEF-4FEF-925B-3447B9D8C64A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{572D6721-5BEF-4FEF-925B-3447B9D8C64A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D015B1F-2AD8-41D9-B75E-6D7990EACA64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D015B1F-2AD8-41D9-B75E-6D7990EACA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D015B1F-2AD8-41D9-B75E-6D7990EACA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D015B1F-2AD8-41D9-B75E-6D7990EACA64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61D5DC64-8C97-4D35-9C1D-43B6DFADA473}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61D5DC64-8C97-4D35-9C1D-43B6DFADA473}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61D5DC64-8C97-4D35-9C1D-43B6DFADA473}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61D5DC64-8C97-4D35-9C1D-43B6DFADA473}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {09AC6499-4631-4449-9B83-631098D2CDB7}
+	EndGlobalSection
+EndGlobal
