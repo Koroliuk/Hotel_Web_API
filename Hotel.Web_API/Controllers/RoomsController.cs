@@ -24,19 +24,19 @@ namespace Hotel.Web_API.Controllers
         }
 
         // GET: api/Rooms
-        public IHttpActionResult Get(string startDateString=null, string endDateString=null)
+        public IHttpActionResult Get(string start=null, string end=null)
         {
-            bool isStartDateStringEmpty = StringUtils.IsBlank(startDateString);
-            bool isEndDateStringEmpty = StringUtils.IsBlank(endDateString);
+            bool isStartDateStringEmpty = StringUtils.IsBlank(start);
+            bool isEndDateStringEmpty = StringUtils.IsBlank(end);
 
             if (isStartDateStringEmpty && isEndDateStringEmpty)
             {
-                return BadRequest();
+                return BadRequest("Start or end dates must be specified");
             }
             try
             {
-                var startDate = isStartDateStringEmpty ? DateTime.Now : DateTime.Parse(startDateString);
-                var endDate = isEndDateStringEmpty ? DateTime.MaxValue : DateTime.Parse(endDateString);
+                var startDate = isStartDateStringEmpty ? DateTime.Now : DateTime.Parse(start);
+                var endDate = isEndDateStringEmpty ? DateTime.MaxValue : DateTime.Parse(end);
                 var rooms = _orderService.GetFreeRooms(startDate, endDate)
                     .Select(room => RoomConverter.Room2Dto(room));
                 return Ok(rooms);
@@ -45,12 +45,24 @@ namespace Hotel.Web_API.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (FormatException e)
+            {
+                return BadRequest(e.Message);
+            }
+            catch
+            {
+                return InternalServerError();
+            }
         }
 
         // GET: api/Rooms/5
         public IHttpActionResult Get(int id)
         {
             var room = _roomService.FindById(id);
+            if (room == null)
+            {
+                return BadRequest("There is no such a room");
+            }
             var roomDto = RoomConverter.Room2Dto(room);
             return Ok(roomDto);
         }

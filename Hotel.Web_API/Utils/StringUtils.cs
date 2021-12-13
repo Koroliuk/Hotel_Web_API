@@ -4,7 +4,7 @@ namespace Hotel.Web_API.Utils
 {
     public class StringUtils
     {
-        public static Boolean IsBlank(string s)
+        public static bool IsBlank(string s)
         {
             return s == null || s.Trim().Equals("");
         }
