@@ -91,7 +91,7 @@ namespace Hotel.BLL.Services
                 .First();
         }
 
-        public void TransformFromBookedToRentedById(int id)
+        public Order TransformFromBookedToRentedById(int id)
         {
             var order = FindById(id);
 
@@ -104,6 +104,8 @@ namespace Hotel.BLL.Services
 
             _unitOfWork.Orders.Update(order);
             _unitOfWork.Save();
+
+            return order;
         }
 
         public IEnumerable<Room> GetFreeRooms(DateTime startDate, DateTime endDate)
@@ -143,7 +145,27 @@ namespace Hotel.BLL.Services
 
         public Order Save(Order order)
         {
+            var startDate = order.Start.Date;
+            var endDate = order.End.Date;
+
+            if (startDate < DateTime.Now.Date || startDate > endDate)
+            {
+                throw new HotelException("Start date should be bigger or equal now and be less that end date");
+            }
+
             var room = _unitOfWork.Rooms.FindById(order.RoomId);
+            if (room == null)
+            {
+                throw new HotelException("There is no a such room");
+            }
+
+            var freeRooms = GetFreeRooms(startDate, endDate);
+
+            if (!freeRooms.Contains(room))
+            {
+                throw new HotelException("A such room is not available at this range of time");
+            }
+
             order.Room = room;
             _unitOfWork.Orders.Create(order);
             _unitOfWork.Save();

@@ -47,25 +47,36 @@ namespace Hotel.Web_API.Controllers
             }
             catch (HotelException e)
             {
-                return Request.CreateResponse(HttpStatusCode.BadRequest, e.Message);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, new { Message = e.Message });
             }
             catch
             {
-                var message = "Please, check input dates";
-                return Request.CreateResponse(HttpStatusCode.BadRequest, message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,
+                    new { Message = "Please, check input dates" });
             }
         }
 
         // PUT: api/Orders/5
         public IHttpActionResult Put(int id)
         {
-            _orderService.TransformFromBookedToRentedById(id);
-            return Ok();
+            var order = _roomService.FindById(id);
+            if (order == null)
+            {
+                return BadRequest("There is no such a order");
+            }
+            var newOrder = _orderService.TransformFromBookedToRentedById(id);
+            var newOrderDto = OrderConverter.Order2Dto(newOrder);
+            return Ok(newOrderDto);
         }
 
         // DELETE: api/Orders/5
         public IHttpActionResult Delete(int id)
         {
+            var order = _roomService.FindById(id);
+            if (order == null)
+            {
+                return NotFound();
+            }
             _orderService.DeleteById(id);
             return Ok();
         }

@@ -8,7 +8,7 @@ namespace Hotel.BLL.interfaces
     {
         Order BookRoomById(int roomId, User user, DateTime startDate, DateTime endDate);
         Order RentRoomById(int roomId, User user, DateTime startDate, DateTime endDate);
-        void TransformFromBookedToRentedById(int orderId);
+        Order TransformFromBookedToRentedById(int orderId);
         IEnumerable<Room> GetFreeRooms(DateTime startDate, DateTime endDate);
         Order FindById(int id);
         bool IsExistsById(int id);

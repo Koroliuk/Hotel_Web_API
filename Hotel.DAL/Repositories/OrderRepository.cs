@@ -53,7 +53,9 @@ namespace Hotel.DAL.Repositories
 
         public Order FindById(int id)
         {
-            return _context.Orders.Find(id);
+            return _context.Orders
+                .Include(o => o.Room.RoomCategory)
+                .FirstOrDefault(o => o.Id == id);
         }
     }
 }
