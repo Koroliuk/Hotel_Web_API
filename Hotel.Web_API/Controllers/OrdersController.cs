@@ -1,5 +1,6 @@
 ﻿using Hotel.BLL.interfaces;
 using Hotel.BLL.Validation;
+using Hotel.DAL.Entities;
 using Hotel.Web_API.Converter;
 using Hotel.Web_API.Models;
 using Hotel.Web_API.Utils;
@@ -32,44 +33,26 @@ namespace Hotel.Web_API.Controllers
         {
             var orders = _orderService.GetAll()
                            .Select(order => OrderConverter.Order2Dto(order));
-            return Ok(orders);
+             return Ok(orders);
         }
 
         // POST: api/Orders
-        [ResponseType(typeof(OrderDto))]
-        public HttpResponseMessage Post([FromBody]int roomId, [FromBody]string startDateString, [FromBody]string endDateString, 
-            [FromBody]bool isPaid = false)
+        public HttpResponseMessage Post([FromBody] OrderDto orderDto)
         {
-            if (StringUtils.IsBlank(startDateString) || StringUtils.IsBlank(endDateString))
-            {
-                //var message = "Please provide input dates";
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            }
             try
             {
-                var startDate = DateTime.Parse(startDateString);
-                var endDate = DateTime.Parse(endDateString);
-                //OrderDto orderDto = null;
-                if (!isPaid)
-                {
-                    _orderService.BookRoomById(roomId, null, startDate, endDate);
-                }
-                else
-                {
-                    _orderService.RentRoomById(roomId, null, startDate, endDate);
-
-                }
-                return new HttpResponseMessage(HttpStatusCode.Created);
+                Order order = OrderConverter.Dto2Order(orderDto);
+                orderDto = OrderConverter.Order2Dto(_orderService.Save(order));
+                return Request.CreateResponse(HttpStatusCode.Created, orderDto);
             }
-            catch (HotelException)
+            catch (HotelException e)
             {
-                //var message = e.Message;
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest, e.Message);
             }
             catch
             {
-                //var message = "Please, check input dates";
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                var message = "Please, check input dates";
+                return Request.CreateResponse(HttpStatusCode.BadRequest, message);
             }
         }
 

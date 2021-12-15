@@ -17,7 +17,7 @@ namespace Hotel.BLL.Services
             _unitOfWork = unitOfWork;
         }
 
-        public void BookRoomById(int roomId, User user, DateTime startDate, DateTime endDate)
+        public Order BookRoomById(int roomId, User user, DateTime startDate, DateTime endDate)
         {
             if (startDate.Date < DateTime.Now.Date || startDate > endDate)
             {
@@ -48,9 +48,13 @@ namespace Hotel.BLL.Services
 
             _unitOfWork.Orders.Create(order);
             _unitOfWork.Save();
+
+            return _unitOfWork.Orders
+                .Find(o => o.Start == startDate && o.End == endDate && o.Room.Id == roomId)
+                .First();
         }
 
-        public void RentRoomById(int roomId, User user, DateTime startDate, DateTime endDate)
+        public Order RentRoomById(int roomId, User user, DateTime startDate, DateTime endDate)
         {
             if (startDate.Date < DateTime.Now.Date || startDate > endDate)
             {
@@ -81,6 +85,10 @@ namespace Hotel.BLL.Services
 
             _unitOfWork.Orders.Create(order);
             _unitOfWork.Save();
+
+            return _unitOfWork.Orders
+                .Find(o => o.Start == startDate && o.End == endDate && o.Room.Id == roomId)
+                .First();
         }
 
         public void TransformFromBookedToRentedById(int id)
@@ -131,6 +139,18 @@ namespace Hotel.BLL.Services
         {
             _unitOfWork.Orders.Delete(id);
             _unitOfWork.Save();
+        }
+
+        public Order Save(Order order)
+        {
+            var room = _unitOfWork.Rooms.FindById(order.RoomId);
+            order.Room = room;
+            _unitOfWork.Orders.Create(order);
+            _unitOfWork.Save();
+
+            return _unitOfWork.Orders
+               .Find(o => o.Start == order.Start && o.End == order.End && o.Room.Id == order.Room.Id)
+               .First();
         }
     }
 }
