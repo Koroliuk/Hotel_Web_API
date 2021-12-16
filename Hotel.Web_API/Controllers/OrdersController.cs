@@ -3,8 +3,8 @@ using Hotel.BLL.Validation;
 using Hotel.DAL.Entities;
 using Hotel.Web_API.Converter;
 using Hotel.Web_API.Models;
-using Hotel.Web_API.Utils;
-using System;
+using Swashbuckle.Swagger.Annotations;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -13,6 +13,9 @@ using System.Web.Http.Description;
 
 namespace Hotel.Web_API.Controllers
 {
+    /// <summary>
+    ///     Represents a orders
+    /// </summary>
     public class OrdersController : ApiController
     {
         private readonly IOrderService _orderService;
@@ -28,6 +31,12 @@ namespace Hotel.Web_API.Controllers
         {
         }
 
+        /// <summary>
+        ///     Return a list of orders
+        /// </summary>
+        /// <returns></returns>
+        [ResponseType(typeof(IList<OrderDto>))]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "Sucessfuly returned a list of orders")]
         // GET: api/Orders
         public IHttpActionResult Get()
         {
@@ -36,6 +45,16 @@ namespace Hotel.Web_API.Controllers
              return Ok(orders);
         }
 
+        /// <summary>
+        ///     Create a new order
+        /// </summary>
+        /// <param name="orderDto">orderDto model</param>
+        /// <returns></returns>
+        [SwaggerResponseRemoveDefaults]
+        [ResponseType(typeof(OrderDto))]
+        [SwaggerResponse(HttpStatusCode.Created, Description = "Sucessfuly create an order")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Description = "Invalid input date (request body)")]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, Description = "Server error")]
         // POST: api/Orders
         public HttpResponseMessage Post([FromBody] OrderDto orderDto)
         {
@@ -56,6 +75,14 @@ namespace Hotel.Web_API.Controllers
             }
         }
 
+        /// <summary>
+        ///     Update an order
+        /// </summary>
+        /// <param name="id">order number and identifier</param>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderDto))]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "Sucessfuly update an order")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Description = "Invalid order number (identifier)")]
         // PUT: api/Orders/5
         public IHttpActionResult Put(int id)
         {
@@ -69,6 +96,14 @@ namespace Hotel.Web_API.Controllers
             return Ok(newOrderDto);
         }
 
+        /// <summary>
+        ///     Dekete an order
+        /// </summary>
+        /// <param name="id">order number and identifier</param>
+        /// <returns></returns>
+        [ResponseType(typeof(OrderDto))]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "Sucessfuly delete an order")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Description = "Invalid order number (identifier)")]
         // DELETE: api/Orders/5
         public IHttpActionResult Delete(int id)
         {

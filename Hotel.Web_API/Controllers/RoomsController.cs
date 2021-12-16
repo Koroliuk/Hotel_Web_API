@@ -1,13 +1,21 @@
 ﻿using Hotel.BLL.interfaces;
 using Hotel.BLL.Validation;
 using Hotel.Web_API.Converter;
+using Hotel.Web_API.Models;
 using Hotel.Web_API.Utils;
+using Swashbuckle.Swagger.Annotations;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web.Http;
+using System.Web.Http.Description;
 
 namespace Hotel.Web_API.Controllers
 {
+    /// <summary>
+    ///     Represent rooms
+    /// </summary>
     public class RoomsController : ApiController
     {
         private readonly IOrderService _orderService;
@@ -23,6 +31,16 @@ namespace Hotel.Web_API.Controllers
         {
         }
 
+        /// <summary>
+        /// Return a list of free rooms for a range of time
+        /// </summary>
+        /// <param name="start">Start point of input time range</param>
+        /// <param name="end">End point of input time range</param>
+        /// <returns></returns>
+        [ResponseType(typeof (IList<RoomDto>))]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "Sucessfuly returned a list of rooms")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Description = "Invalid data")]
+        [SwaggerResponse(HttpStatusCode.InternalServerError, Description = "Server error")]
         // GET: api/Rooms
         public IHttpActionResult Get(string start=null, string end=null)
         {
@@ -55,6 +73,14 @@ namespace Hotel.Web_API.Controllers
             }
         }
 
+        /// <summary>
+        ///     Returns a room
+        /// </summary>
+        /// <param name="id">Room identifier and number</param>
+        /// <returns></returns>
+        [ResponseType(typeof (RoomDto))]
+        [SwaggerResponse(HttpStatusCode.OK, Description = "Sucessfuly returned a room")]
+        [SwaggerResponse(HttpStatusCode.BadRequest, Description = "There is no room with a such id")]
         // GET: api/Rooms/5
         public IHttpActionResult Get(int id)
         {
