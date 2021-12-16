@@ -3,6 +3,6 @@
     public class RoomDto
     {
         public int RoomNumber { get; set; }
-        public RoomCategoryDto Category { get; set; }
+        public RoomCategoryDto RoomCategory { get; set; }
     }
 }

@@ -1,6 +1,8 @@
-﻿using Hotel.BLL.interfaces;
+﻿using AutoMapper;
+using Hotel.BLL.interfaces;
 using Hotel.BLL.Validation;
-using Hotel.Web_API.Converter;
+using Hotel.DAL.Entities;
+using Hotel.Web_API.App_Start;
 using Hotel.Web_API.Models;
 using Hotel.Web_API.Utils;
 using Swashbuckle.Swagger.Annotations;
@@ -18,6 +20,7 @@ namespace Hotel.Web_API.Controllers
     /// </summary>
     public class RoomsController : ApiController
     {
+        private readonly IMapper mapper = AutoMapperConfiguration.provideMaper();
         private readonly IOrderService _orderService;
         private readonly IRoomService _roomService;
 
@@ -56,7 +59,7 @@ namespace Hotel.Web_API.Controllers
                 var startDate = isStartDateStringEmpty ? DateTime.Now : DateTime.Parse(start);
                 var endDate = isEndDateStringEmpty ? DateTime.MaxValue : DateTime.Parse(end);
                 var rooms = _orderService.GetFreeRooms(startDate, endDate)
-                    .Select(room => RoomConverter.Room2Dto(room));
+                    .Select(room => mapper.Map<Room, RoomDto>(room));
                 return Ok(rooms);
             }
             catch (HotelException e)
@@ -89,7 +92,7 @@ namespace Hotel.Web_API.Controllers
             {
                 return BadRequest("There is no such a room");
             }
-            var roomDto = RoomConverter.Room2Dto(room);
+            var roomDto = mapper.Map<Room, RoomDto>(room);
             return Ok(roomDto);
         }
     }

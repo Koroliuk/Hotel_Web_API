@@ -1,7 +1,8 @@
-﻿using Hotel.BLL.interfaces;
+﻿using AutoMapper;
+using Hotel.BLL.interfaces;
 using Hotel.BLL.Validation;
 using Hotel.DAL.Entities;
-using Hotel.Web_API.Converter;
+using Hotel.Web_API.App_Start;
 using Hotel.Web_API.Models;
 using Swashbuckle.Swagger.Annotations;
 using System.Collections.Generic;
@@ -18,6 +19,7 @@ namespace Hotel.Web_API.Controllers
     /// </summary>
     public class OrdersController : ApiController
     {
+        private readonly IMapper mapper = AutoMapperConfiguration.provideMaper();
         private readonly IOrderService _orderService;
         private readonly IRoomService _roomService;
 
@@ -41,7 +43,7 @@ namespace Hotel.Web_API.Controllers
         public IHttpActionResult Get()
         {
             var orders = _orderService.GetAll()
-                           .Select(order => OrderConverter.Order2Dto(order));
+                           .Select(order => mapper.Map<Order, OrderDto>(order));
              return Ok(orders);
         }
 
@@ -60,8 +62,8 @@ namespace Hotel.Web_API.Controllers
         {
             try
             {
-                Order order = OrderConverter.Dto2Order(orderDto);
-                orderDto = OrderConverter.Order2Dto(_orderService.Save(order));
+                Order order = mapper.Map<OrderDto, Order>(orderDto);
+                orderDto = mapper.Map<Order, OrderDto>(_orderService.Save(order));
                 return Request.CreateResponse(HttpStatusCode.Created, orderDto);
             }
             catch (HotelException e)
@@ -92,7 +94,7 @@ namespace Hotel.Web_API.Controllers
                 return BadRequest("There is no such a order");
             }
             var newOrder = _orderService.TransformFromBookedToRentedById(id);
-            var newOrderDto = OrderConverter.Order2Dto(newOrder);
+            var newOrderDto = mapper.Map<Order, OrderDto>(newOrder);
             return Ok(newOrderDto);
         }
 
