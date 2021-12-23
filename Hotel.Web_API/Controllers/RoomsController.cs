@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace Hotel.Web_API.Controllers
@@ -18,6 +19,7 @@ namespace Hotel.Web_API.Controllers
     /// <summary>
     ///     Represent rooms
     /// </summary>
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class RoomsController : ApiController
     {
         private readonly IMapper mapper = AutoMapperConfiguration.provideMaper();

@@ -15,6 +15,5 @@ namespace Hotel.Web_API.Models
         public OrderType Type { get; set; }
         [Required(ErrorMessage = "Room number can not be empty")]
         public int RoomNumber { get; set; }
-        public RoomDto Room { get; set; }
     }
 }

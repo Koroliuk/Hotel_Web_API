@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace Hotel.Web_API.Controllers
@@ -17,6 +18,7 @@ namespace Hotel.Web_API.Controllers
     /// <summary>
     ///     Represents a orders
     /// </summary>
+    [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class OrdersController : ApiController
     {
         private readonly IMapper mapper = AutoMapperConfiguration.provideMaper();

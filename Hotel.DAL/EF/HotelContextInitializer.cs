@@ -59,7 +59,7 @@ namespace Hotel.DAL.EF
 
             Order order1 = new Order
             {
-                Start = DateTime.ParseExact("2021-12-12", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                Start = DateTime.ParseExact("2021-12-23", "yyyy-MM-dd", CultureInfo.InvariantCulture),
                 End = DateTime.ParseExact("2021-12-25", "yyyy-MM-dd", CultureInfo.InvariantCulture),
                 Type = OrderType.Booked,
                 User = user1,
@@ -68,8 +68,8 @@ namespace Hotel.DAL.EF
 
             Order order2 = new Order
             {
-                Start = DateTime.ParseExact("2021-12-10", "yyyy-MM-dd", CultureInfo.InvariantCulture),
-                End = DateTime.ParseExact("2021-12-20", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                Start = DateTime.ParseExact("2021-12-30", "yyyy-MM-dd", CultureInfo.InvariantCulture),
+                End = DateTime.ParseExact("2021-12-31", "yyyy-MM-dd", CultureInfo.InvariantCulture),
                 Type = OrderType.Paid,
                 User = user2,
                 Room = room2
